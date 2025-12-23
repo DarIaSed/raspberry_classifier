@@ -1,0 +1,29 @@
+﻿# -*- coding: utf-8 -*-
+import pandas as pd
+import os
+import shutil
+import random
+from sklearn.model_selection import train_test_split
+
+datasets_folder = "C:\\Users\\dasha\\raspberry_classifier\\data\\datasets"
+os.makedirs(os.path.join(datasets_folder, 'train'), exist_ok=True)
+os.makedirs(os.path.join(datasets_folder, 'val'), exist_ok=True) 
+os.makedirs(os.path.join(datasets_folder, 'test'), exist_ok=True)
+
+images_df = pd.read_csv("C:\\Users\\dasha\\raspberry_classifier\\data\\images_list.csv")
+
+for species in images_df['вид'].unique():
+    species_images = images_df[images_df['вид'] == species]['файл'].tolist()
+    
+    train_val, test = train_test_split(species_images, test_size=0.15, random_state=42)
+    train, val = train_test_split(train_val, test_size=0.176, random_state=42)
+    
+    for split_name, split_images in [('train', train), ('val', val), ('test', test)]:
+        split_folder = os.path.join(datasets_folder, split_name, species)
+        os.makedirs(split_folder, exist_ok=True)
+        
+        for img_path in split_images:
+            if os.path.exists(img_path):
+                shutil.copy(img_path, os.path.join(split_folder, os.path.basename(img_path)))
+    
+    print(f'{species}: train={len(train)}, val={len(val)}, test={len(test)}')
