@@ -1,0 +1,48 @@
+schema: '2.0'
+stages:
+  process_data:
+    cmd: py src/process_data.py
+    deps:
+    - path: data/images_list.csv
+      hash: md5
+      md5: 1781fbced659ea90ce041bd1c88ec7df
+      size: 567751
+    - path: src/process_data.py
+      hash: md5
+      md5: 5cbff14dbd45d6b68d7918fe2e3e86df
+      size: 1284
+    outs:
+    - path: data/datasets
+      hash: md5
+      md5: ed16b3395aab538c944bd649e36e9041.dir
+      size: 415391513
+      nfiles: 2986
+  train:
+    cmd: py src/train.py
+    deps:
+    - path: data/datasets
+      hash: md5
+      md5: ed16b3395aab538c944bd649e36e9041.dir
+      size: 415391513
+      nfiles: 2986
+    - path: src/train.py
+      hash: md5
+      md5: 14af3478c4dbdae51ee4ac7531bf2c89
+      size: 8637
+    outs:
+    - path: class_distribution.png
+      hash: md5
+      md5: f9ea8a5fe71542cbceb9d3b48e5694f6
+      size: 38133
+    - path: metrics.json
+      hash: md5
+      md5: 4ed316de3b6d5b2daa8baa3e54117d79
+      size: 139
+    - path: raspberry_model.pth
+      hash: md5
+      md5: 14270d766aa29d37e9a41c7294aaf53c
+      size: 102766523
+    - path: training_results.png
+      hash: md5
+      md5: 1c1ddedf7266c3988141c33f643938d2
+      size: 54891

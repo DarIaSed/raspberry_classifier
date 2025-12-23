@@ -1,0 +1,21 @@
+stages: 
+  process_data: 
+    cmd: py src/process_data.py 
+    deps: 
+      - src/process_data.py 
+      - data/images_list.csv 
+    outs: 
+      - data/datasets 
+ 
+  train: 
+    cmd: py src/train.py 
+    deps: 
+      - src/train.py 
+      - data/datasets 
+    outs: 
+      - raspberry_model.pth 
+      - class_distribution.png 
+      - training_results.png 
+    metrics: 
+      - metrics.json: 
+          cache: false 
